@@ -1,11 +1,11 @@
 version: '2.2'
 services:
   web:
+    depends_on:
+      - db
     build: ./fuel-calc
     ports:
       - "5000:5000"
-    depends_on:
-      - db
     volumes:
       - ./fuel-calc:/fuel-calc
     environment:
