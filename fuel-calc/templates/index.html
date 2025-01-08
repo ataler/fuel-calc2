@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Spalania 3.0</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .last-calculations {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .calculation {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            width: 45%;
+            min-width: 250px;
+        }
+
+        .calculation h4 {
+            margin: 0;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+        }
+
+        .result {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-top: 30px;
+        }
+
+        .history-button {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .history-button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-group input[type="text"], 
+        .form-group input[type="submit"] {
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            background-color: #ff5722;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #d45c1f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kalkulator Spalania</h1>
+
+        {% if errors %}
+        <div class="error">
+            <ul>
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <form action="/oblicz" method="post">
+            <div class="form-group">
+                <label for="distance">Dystans [KM]:</label>
+                <input type="text" id="distance" name="distance" required 
+                    value="{{ distance }}" placeholder="Wprowadź dystans">
+            </div>
+            
+            <div class="form-group">
+                <label for="fuel_per_100km">Spalanie na 100 km [L]:</label>
+                <input type="text" id="fuel_per_100km" name="fuel_per_100km" required 
+                    value="{{ fuel_per_100km }}" placeholder="Wprowadź spalanie">
+            </div>
+            
+            <div class="form-group">
+                <label for="fuel_price">Cena paliwa [zł/L] (Opcjonalnie):</label>
+                <input type="text" id="fuel_price" name="fuel_price" 
+                    value="{{ fuel_price }}" placeholder="Wprowadź cenę paliwa">
+            </div>
+
+            <input type="submit" value="Oblicz" class="btn">
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <h2>Spalisz {{ result }} [L] paliwa pokonując {{ distance }} [KM]</h2>
+            {% if cost is not none and cost != 'None' and cost | float > 0 %}
+                <h3>Koszt paliwa: {{ cost }} ZŁ</h3>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <h3>Ostatnie 5 obliczeń</h3>
+        <div class="last-calculations">
+            {% for calc in last_five %}
+            <div class="calculation">
+                <h4>Obliczenie #{{ calc.id }}</h4>
+                <p>Dystans: {{ calc.distance }} KM</p>
+                <p>Spalanie: {{ calc.fuel_per_100km }} L/100 km</p>
+                {% if calc.cost %}
+                    <p>Cena paliwa: {{ calc.fuel_price }} ZŁ za L</p>
+                    <p>Koszt: {{ calc.cost | round(2) }} ZŁ</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if last_five|length > 0 %}
+        <a href="/history" class="history-button">Pokaż więcej</a>
+        {% else %}
+        <p>Brak obliczeń w historii.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

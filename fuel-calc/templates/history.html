@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia Obliczeń</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .statistics {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .statistics p {
+            font-size: 18px;
+        }
+
+        .last-calculations {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .calculation {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            width: 45%;
+            min-width: 250px;
+        }
+
+        .calculation h4 {
+            margin: 0;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            width: auto;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .back-button {
+            background-color: #ff5722;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #d45c1f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Historia Obliczeń</h1>
+
+        {% if avg_distance is not none or avg_fuel is not none or avg_cost is not none %}
+        <div class="statistics">
+            <p><strong>Średnie Spalanie:</strong> {{ avg_fuel if avg_fuel is not none else 'Brak danych' }} L/100 km</p>
+            <p><strong>Suma Pokonanych Kilometrów:</strong> {{ total_distance }} km</p>
+            <p><strong>Suma Kosztów Paliwa:</strong> {{ total_cost }} ZŁ</p>
+            <hr>
+            <p><strong>Średni Dystans:</strong> {{ avg_distance if avg_distance is not none else 'Brak danych' }} km</p>
+            <p><strong>Średni Koszt Paliwa:</strong> {{ avg_cost if avg_cost is not none else 'Brak danych' }} ZŁ</p>
+        </div>
+        {% endif %}
+        <hr>
+        {% if calculations %}
+        <div class="last-calculations">
+            {% for calc in calculations %}
+            <div class="calculation">
+                <h4>Obliczenie #{{ calc.id }}</h4>
+                <p>Dystans: {{ calc.distance }} km</p>
+                <p>Spalanie: {{ calc.fuel_per_100km }} L/100 km</p>
+                {% if calc.cost %}
+                    <p>Cena paliwa: {{ calc.fuel_price }} zł za L</p>
+                    <p>Koszt: {{ calc.cost | round(2) }} ZŁ</p>
+                {% endif %}
+                <form action="/delete/{{ calc.id }}" method="post">
+                    <input type="submit" value="Usuń" class="btn">
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        <a href="/delete_all" class="btn">Usuń Wszystko</a>
+        {% else %}
+        <p>Brak obliczeń w historii.</p>
+        {% endif %}
+
+        <a href="/" class="back-button">Wróć do kalkulatora</a>
+    </div>
+</body>
+</html>
