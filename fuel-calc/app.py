@@ -140,7 +140,7 @@ def history():
                            avg_fuel=avg_fuel, 
                            avg_cost=avg_cost,
                            total_distance=total_distance,
-                           total_fuel_consume=total_fuel_consume,
+                           total_fuel_consumed=total_fuel_consumed,
                            total_cost=round(total_cost, 2))
 
 
