@@ -114,6 +114,7 @@
                 <h4>Obliczenie #{{ calc.id }}</h4>
                 <p>Dystans: {{ calc.distance }} km</p>
                 <p>Spalanie: {{ calc.fuel_per_100km }} L/100 km</p>
+                <p>Spalono: {{ calc.fuel_consumed }} L</p>                                                                
                 {% if calc.cost %}
                     <p>Cena paliwa: {{ calc.fuel_price }} zł za L</p>
                     <p>Koszt: {{ calc.cost | round(2) }} ZŁ</p>
