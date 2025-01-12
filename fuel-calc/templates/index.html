@@ -155,7 +155,7 @@
             </div>
             
             <div class="form-group">
-                <label for="fuel_price">Cena paliwa [zł/L] (Opcjonalnie):</label>
+                <label for="fuel_price">Cena paliwa [zł / L] (Opcjonalnie):</label>
                 <input type="text" id="fuel_price" name="fuel_price" 
                     value="{{ fuel_price }}" placeholder="Wprowadź cenę paliwa">
             </div>
@@ -178,10 +178,10 @@
             <div class="calculation">
                 <h4>Obliczenie #{{ calc.id }}</h4>
                 <p>Dystans: {{ calc.distance }} KM</p>
-                <p>Spalanie: {{ calc.fuel_per_100km }} L/100 km</p>
+                <p>Spalanie: {{ calc.fuel_per_100km }} L / 100KM</p>
                 <p>Spalono: {{ calc.fuel_consumed }} L</p>
                 {% if calc.cost %}
-                    <p>Cena paliwa: {{ calc.fuel_price }} ZŁ za L</p>
+                    <p>Cena paliwa: {{ calc.fuel_price }} ZŁ / L</p>
                     <p>Koszt: {{ calc.cost | round(2) }} ZŁ</p>
                 {% endif %}
             </div>
