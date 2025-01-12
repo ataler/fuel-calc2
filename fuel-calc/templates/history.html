@@ -98,7 +98,7 @@
 
         {% if avg_distance is not none or avg_fuel is not none or avg_cost is not none %}
         <div class="statistics">
-            <p><strong>Średnie Spalanie:</strong> {{ avg_fuel if avg_fuel is not none else 'Brak danych' }} L / 100KM</p>
+            <p><strong>Średnie Spalanie:</strong> {{ avg_fuel if avg_fuel is not none else 'Brak danych' }} L / 100 KM</p>
             <p><strong>Suma Pokonanych Kilometrów:</strong> {{ total_distance }} KM</p>
             <p><strong>Suma Kosztów Paliwa:</strong> {{ total_cost }} ZŁ</p>
             <hr>
@@ -113,7 +113,7 @@
             <div class="calculation">
                 <h4>Obliczenie #{{ calc.id }}</h4>
                 <p>Dystans: {{ calc.distance }} KM</p>
-                <p>Spalanie: {{ calc.fuel_per_100km }} L / 100KM</p>
+                <p>Spalanie: {{ calc.fuel_per_100km }} L / 100 KM</p>
                 <p>Spalono: {{ calc.fuel_consumed }} L</p>                                                                
                 {% if calc.cost %}
                     <p>Cena paliwa: {{ calc.fuel_price }} ZŁ / L</p>
