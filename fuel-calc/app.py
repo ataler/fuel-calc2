@@ -127,6 +127,7 @@ def history():
 
 
     total_distance = session.query(func.sum(Calculation.distance)).scalar() or 0
+    total_fuel_consumed = session.query(func.sum(Calculation.fuel_consumed)).scalar() or 0
     total_cost = session.query(func.sum(Calculation.cost)).scalar() or 0
 
     avg_cost = round(avg_cost, 2) if avg_cost is not None else None
@@ -139,6 +140,7 @@ def history():
                            avg_fuel=avg_fuel, 
                            avg_cost=avg_cost,
                            total_distance=total_distance,
+                           total_fuel_consume=total_fuel_consume,
                            total_cost=round(total_cost, 2))
 
 
